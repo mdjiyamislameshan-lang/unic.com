@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WWW.UNIC.COM | কমিক্স এর জগতে স্বাগতম</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* CSS Variables & Global Styles */
+:root{
+  --bg:#fffaf0; 
+  --card:#ffffff;
+  --accent:#2a6fdb; 
+  --muted:#666;
+  --shadow:0 6px 18px rgba(0,0,0,0.08);
+  --radius:18px;
+  font-family:"Noto Sans Bengali",sans-serif; 
+  box-sizing: border-box; 
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#fff);-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:28px auto;padding:18px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{
+  width:56px;height:56px;border-radius:12px;
+  background:#000;color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:16px;box-shadow:var(--shadow);
+  letter-spacing:1px;
+}
+h1{margin:0;font-size:20px}
+p.lead{margin:6px 0 0;color:var(--muted);font-size:14px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
+.chapter-title{font-size:22px;margin:0 0 6px;color:#222;}
+.chapter-body{line-height:1.7;color:#222}
+
+/* Navigation & Buttons */
+.nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{padding:10px 14px;border-radius:12px;border:0;background:var(--accent);color:white;font-weight:600;cursor:pointer;box-shadow:0 6px 12px rgba(42,111,219,0.18);transition:all .15s ease}
+.btn:hover{filter:brightness(1.1)}
+.btn.secondary{background:#f0f0f0;color:#222;box-shadow:none}
+.btn.secondary:hover{background:#e0e0e0;}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(42,111,219,0.12);box-shadow:none;}
+.btn.ghost:hover{background:rgba(42,111,219,0.05);}
+
+/* Page Animation & Visibility */
+.page{display:none;animation:fadeIn .20s ease both}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none}}
+
+/* New: Hide content initially (Except login/signup) */
+.locked-content {
+    display: none;
+}
+
+footer{font-size:13px;color:var(--muted);text-align:center;padding:10px 0}
+@media (max-width:520px){.wrap{padding:12px}.brand h1{font-size:18px}}
+
+.search-input{padding:8px 10px;border-radius:10px;border:1px solid #ccc;width:110px;margin-left:8px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.navigation-small{display:flex;gap:6px;flex-wrap:wrap}
+
+/* Form Styles */
+.form-group{margin-bottom:12px;}
+.form-group label{display:block;margin-bottom:4px;font-weight:600;font-size:14px;}
+.form-group input{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;font-size:16px;}
+.submit-btn{width:100%;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">UNIC</div>
+      <div>
+        <h1>🌸 স্বাগতম আমার গল্পের জগতে 🌸</h1>
+        <p class="lead"> এই প্রথম বাংলাদেশে কমিক্স নিয়া আসলাম গল্প এর যার জন্য সবাই এতো এতো টাকা খরচ করেন , 🥹 আমি নিয়া আসলাম আপনাদের জন্য ।  ✨</p>
+      </div>
+    </div>
+
+    <nav class="nav" id="mainNav">
+      <button class="btn secondary" data-go="login">লগইন</button>
+      <button class="btn" data-go="signup">সাইনআপ</button>
+    </nav>
+  </header>
+  
+  <div class="controls locked-content" id="contentControls" style="margin-bottom:18px;">
+        <div style="display:flex;align-items:center;margin-left:auto;">
+          <input class="search-input" type="number" id="searchPage" placeholder="পেজ নং (১-১২)">
+          <button class="btn" id="goBtn" style="padding:10px 12px;border-radius:12px;margin-left:8px;">অনুসন্ধান </button>
+        </div>
+      </div>
+
+  <section id="signup" class="card page active">
+    <h2 class="chapter-title">নতুন অ্যাকাউন্ট তৈরি করুন</h2>
+    <p class="chapter-body">কমিক্স পড়ার জন্য একটি অ্যাকাউন্ট তৈরি করুন। (দ্রষ্টব্য: এটি কেবল ফ্রন্ট-এন্ড ফর্ম, ডেটা সেভ হবে না।)</p>
+    <form onsubmit="fakeSignup(event)" style="margin-top:15px;">
+        <div class="form-group"><label for="username">ইউজারনেম</label><input type="text" id="username" required></div>
+        <div class="form-group"><label for="email">ইমেইল</label><input type="email" id="email" required></div>
+        <div class="form-group"><label for="password">পাসওয়ার্ড</label><input type="password" id="password" required></div>
+        <div class="form-group"><button type="submit" class="btn submit-btn">সাইনআপ করুন</button></div>
+    </form>
+    <div style="margin-top:12px;text-align:center;"><button class="btn ghost" data-go="login">ইতিমধ্যে অ্যাকাউন্ট আছে? লগইন করুন</button></div>
+  </section>
+  
+  <section id="login" class="card page">
+    <h2 class="chapter-title">লগইন করুন</h2>
+    <p class="chapter-body">কমিক্স পড়ার জন্য লগইন করুন।</p>
+    <form onsubmit="fakeLogin(event)" style="margin-top:15px;">
+        <div class="form-group"><label for="login_email">ইমেইল বা ইউজারনেম</label><input type="text" id="login_email" required></div>
+        <div class="form-group"><label for="login_password">পাসওয়ার্ড</label><input type="password" id="login_password" required></div>
+        <div class="form-group"><button type="submit" class="btn submit-btn">লগইন করুন</button></div>
+    </form>
+    <div style="margin-top:12px;text-align:center;"><button class="btn ghost" data-go="signup">অ্যাকাউন্ট নেই? সাইনআপ করুন</button></div>
+  </section>
+
+  <div id="mainContent" class="locked-content">
+  
+  <section id="home" class="card page">
+    <h2 class="chapter-title">স্বাগতম —ভাইয়া/আপুরা সবাইকে ﷽𝐀𝐬𝐬𝐚𝐥𝐚𝐦𝐮𝐥𝐚𝐢𝐤𝐮𝐦﷽</h2>
+    <p class="chapter-body"> হ্যালো পাঠক! 🌸
+আমার ওপন্যাসে তোমার আগমনকে স্বাগত।
+গল্পের প্রথম পাতা থেকে শেষ পর্যন্ত চলবে রহস্য, আবেগ, এবং নতুন গল্পের উত্তেজনা।
+চলো শুরু করি! ✍️✨
+</p>
+    <div style="margin-top:12px" class="navigation-small">
+      <button class="btn" data-go="chapter1">চলো শুরু করা যাক →</button>
+    </div>
+  </section>
+
+
+  <section id="character" class="card page">
+    <h2 class="chapter-title">চরিত্র পরিচিতি</h2>
+    <p class="chapter-body">
+      আমি হচ্ছি **LAIVARA ( লাইভারা )** আমার চরিত্র হচ্ছে হিরোইন, 
+      আমার বাড়ি হচ্ছে LUMINA CITY. আমি নবম শ্রেণিতে পড়ি।🫶🤍
+      <br><br>
+      আমি হচ্ছি **NOVAS ( নোভাস )** আমার চরিত্র হচ্ছে হিরো , 
+      আমার বাড়ি হচ্ছে ELVIRA CITY.আমি নবম শ্রেণিতে পড়ি।🫶🤍
+      <br><br>
+      আমি হচ্ছি **DRAVIC ( ড্রাভিক )** আমার চরিত্র হচ্ছে ভিলেন , 
+      আমার বাড়ি হচ্ছি CHINI CITY. আমি নবম শ্রেণিতে পড়ি।🫶🤍
+      <br><br>
+      আমি হচ্ছে **NOLAS ( নোলাস )** আমার চরিত্র হচ্ছে হিরোর বন্ধু , 
+      আমার বাড়ি হচ্ছে CHINI CITY.আমি নবম শ্রেণিতে পড়ি।🫶🤍
+    </p>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+    </section>
+    
+  <section id="raiter" class="card page">
+    <h2 class="chapter-title">লেখকের পরিচয় </h2>
+    <p class="chapter-body">
+      নাম: Md Jiyam Islam Eshan ( কাঠগোলাপ)
+      <br>
+      জন্ম: ১৫ জুন ২০০৮
+      <br>
+      শিক্ষা: ৯ম শ্রেণি, বিজ্ঞান বিভাগ
+      <br>
+      শখ: কমিক বই বানানো, নতুন জ্ঞান অর্জন, রচনা লেখা
+      <br>
+      স্বভাব: সৃষ্টিশীল, কৌতূহলী, বন্ধুত্বপূর্ণ
+      <br><br>
+      ছোট বর্ণনা:
+      "সপ্ন দেখি, সৃষ্টি করি, প্রতিটি মুহূর্তকে মূল্যবান করি।" ✨
+    </p>
+    
+    <div style="margin-top:12px;display:flex;gap:8px;align-items:center;">
+      <img src="myphoto.jpg" alt="আমার ছবি" style="max-width:150px; height:auto; border-radius:15px; margin-right:15px;">
+      <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+</section>
+
+<section id="chapter1" class="card page">
+    <h2 class="chapter-title">চ্যাপ্টার ১</h2>
+    <p class="chapter-body">রাতের অন্ধকারে শহর ঘুমিয়ে ছিলো, জুম্স প্রস্তুত নতুন গল্পের জন্য।</p>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button class="btn secondary" data-go="home">হোম ↩︎</button>
+      <button class="btn" data-next="2">পরের পেজ →</button>
+    </div>
+  </section>
+
+  <section id="chapter2" class="card page">
+    <h2 class="chapter-title">চ্যাপ্টার ২</h2>
+    <p class="chapter-body">জুম্স শহরের গলি দিয়ে যাচ্ছে। কিছু অদ্ভুত শব্দ তার কৌতূহল বাড়াচ্ছে।</p>
+    <div class="navigation-small" style="margin-top:12px">
+      <button class="btn secondary" data-prev="1">পেছনে ↩︎</button>
+      <button class="btn" data-next="3">পরের পেজ →</button>
+      <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+  </section>
+
+  <section id="chapter3" class="card page">
+    <h2 class="chapter-title">চ্যাপ্টার ৩</h2>
+    <p class="chapter-body">জুম্স থমকে গেলো অদ্ভুত শব্দে। কে বা কারা তাকে অনুসরণ করছে?</p>
+    <div class="navigation-small" style="margin-top:12px">
+      <button class="btn secondary" data-prev="2">পেছনে ↩︎</button>
+      <button class="btn" data-next="4">পরের পেজ →</button>
+      <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+  </section>
+
+  <section id="chapter4" class="card page">
+    <h2 class="chapter-title">চ্যাপ্টার ৪</h2>
+    <p class="chapter-body">জুম্স সাহস নিয়ে শহরের গলি অতিক্রম করে — সামনে অজানা অপেক্ষা করছে।</p>
+    <div class="navigation-small" style="margin-top:12px">
+      <button class="btn secondary" data-prev="3">পেছনে ↩︎</button>
+      <button class="btn" data-next="5">পরের পেজ →</button>
+      <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+  </section>
+
+  <section id="chapter5" class="card page">
+    <h2 class="chapter-title">চ্যাপ্টার ৫</h2>
+    <p class="chapter-body">হঠাৎ একটি নতুন চরিত্র হাজির হলো। জুম্সের গল্পে মোড় এল।</p>
+    <div class="navigation-small" style="margin-top:12px">
+      <button class="btn secondary" data-prev="4">পেছনে ↩︎</button>
+      <button class="btn" data-next="6">পরের পেজ →</button>
+      <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+  </section>
+
+  <section id="chapter6" class="card page">
+    <h2 class="chapter-title">চ্যাপ্টার ৬</h2>
+    <p class="chapter-body">চরিত্রদের মধ্যে বিবাদ দেখা দিলো — জুম্স পরিস্থিতি সামলাচ্ছে।</p>
+    <div class="navigation-small" style="margin-top:12px">
+      <button class="btn secondary" data-prev="5">পেছনে ↩︎</button>
+      <button class="btn" data-next="7">পরের পেজ →</button>
+      <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+  </section>
+
+  <section id="chapter7" class="card page">
+    <h2 class="chapter-title">চ্যাপ্টার ৭</h2>
+    <p class="chapter-body">জুম্সের সাহস পরীক্ষা হচ্ছে; প্রতিটি পদক্ষেপে চ্যালেঞ্জ।</p>
+    <div class="navigation-small" style="margin-top:12px">
+      <button class="btn secondary" data-prev="6">পেছনে ↩︎</button>
+      <button class="btn" data-next="8">পরের পেজ →</button>
+      <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+  </section>
+
+  <section id="chapter8" class="card page">
+    <h2 class="chapter-title">চ্যাপ্টার ৮</h2>
+    <p class="chapter-body">অপ্রত্যাশিত কিছু ঘটলো — জুম্সের বিশ্বাস ও ভয় লড়ছে।</p>
+    <div class="navigation-small" style="margin-top:12px">
+      <button class="btn secondary" data-prev="7">পেছনে ↩︎</button>
+      <button class="btn" data-next="9">পরের পেজ →</button>
+      <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+  </section>
+
+  <section id="chapter9" class="card page">
+    <h2 class="chapter-title">চ্যাপ্টার ৯</h2>
+    <p class="chapter-body">শহরে রহস্যময় ঘটনা — জুম্স এগুলো খতিয়ে দেখছে।</p>
+    <div class="navigation-small" style="margin-top:12px">
+      <button class="btn secondary" data-prev="8">পেছনে ↩︎</button>
+      <button class="btn" data-next="10">পরের পেজ →</button>
+      <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+  </section>
+
+  <section id="chapter10" class="card page">
+    <h2 class="chapter-title">চ্যাপ্টার ১০</h2>
+    <p class="chapter-body">প্রথম অংশের সমাপ্তি — জুম্স নতুন অভিযানে প্রস্থান করবে।</p>
+    <div class="navigation-small" style="margin-top:12px">
+      <button class="btn secondary" data-prev="9">পেছনে ↩︎</button>
+      <button class="btn" data-next="11">পরের পেজ →</button>
+      <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+ </section>
+ 
+ <section id="chapter11" class="card page">
+    <h2 class="chapter-title">চ্যাপ্টার ১১</h2>
+    <p class="chapter-body">
+        জুম্স নতুন অভিযানে প্রথম চ্যালেঞ্জের মুখোমুখি হলো। তার সাহস ও বুদ্ধিমত্তা পরীক্ষা হবে নতুন বন্ধু এবং শত্রুদের মাধ্যমে।
+    </p>
+    <div class="navigation-small" style="margin-top:12px">
+        <button class="btn secondary" data-prev="10">পেছনে ↩︎</button>
+        <button class="btn" data-next="12">পরের পেজ →</button>
+        <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+</section>
+
+<section id="chapter12" class="card page">
+    <h2 class="chapter-title">চ্যাপ্টার ১২ (শেষ)</h2>
+    <p class="chapter-body">
+        জুম্স তার প্রথম চ্যালেঞ্জ সফলভাবে সম্পন্ন করলো। কিন্তু এই গল্প কেবল শুরু! আরো নতুন রহস্য এবং রোমাঞ্চের জন্য অপেক্ষা করুন। 
+    </p>
+    <div class="navigation-small" style="margin-top:12px">
+        <button class="btn secondary" data-prev="11">পেছনে ↩︎</button>
+        <button class="btn secondary" data-go="home">হোম ↩︎</button>
+    </div>
+</section>
+
+</div> <footer class="card" style="text-align:center">
+    © <strong>✍️𝓙𝓲𝔂𝙖𝙢</strong>___আমি গল্প লিখি না, আমি অনুভূতি গড়ি___ ✨
+  </footer>
+</div>
+
+<script>
+/* --- State Management & Logic --- */
+const contentWrapper = document.getElementById('mainContent');
+const contentControls = document.getElementById('contentControls');
+const navBar = document.getElementById('mainNav');
+const loginPage = document.getElementById('login');
+const signupPage = document.getElementById('signup');
+const totalChapters = 12;
+
+let isLoggedIn = false;
+
+/* --- FAKE AUTHENTICATION FUNCTIONS --- */
+
+// Function to handle successful login/signup
+function authenticateUser(message) {
+    if (isLoggedIn) return; // Prevent multiple runs
+    isLoggedIn = true;
+    
+    // 1. Show all locked content
+    contentWrapper.classList.remove('locked-content');
+    contentControls.classList.remove('locked-content');
+
+    // 2. Hide Login/Signup pages
+    loginPage.classList.remove('active');
+    signupPage.classList.remove('active');
+    
+    // 3. Update Navigation Bar
+    navBar.innerHTML = `
+        <button class="btn" data-go="home">হোম 🏠</button>
+        <button class="btn ghost" data-go="character">চরিত্র পরিচয়</button>
+        <button class="btn ghost" data-go="raiter">লেখকের পরিচয়</button>
+        <button class="btn secondary" onclick="fakeLogout()">লগআউট 🚪</button>
+    `;
+    
+    alert(message);
+    showPage('home'); // Go to the home page after login/signup
+}
+
+// FAKE Login Logic
+function fakeLogin(e) {
+    e.preventDefault();
+    // In a real app, you would validate credentials against a database here.
+    // Here, we just assume it's successful.
+    authenticateUser('লগইন সফল হয়েছে! এখন আপনি গল্প পড়তে পারবেন।');
+}
+
+// FAKE Signup Logic
+function fakeSignup(e) {
+    e.preventDefault();
+    // In a real app, you would save user data to a database here.
+    // Here, we just assume it's successful and log them in immediately.
+    authenticateUser('রেজিস্ট্রেশন সফল! স্বাগতম, গল্প পড়ার জন্য প্রস্তুত।');
+}
+
+// FAKE Logout Logic
+function fakeLogout() {
+    isLoggedIn = false;
+    
+    // 1. Hide all main content
+    contentWrapper.classList.add('locked-content');
+    contentControls.classList.add('locked-content');
+
+    // 2. Update Navigation Bar back to initial state
+    navBar.innerHTML = `
+      <button class="btn secondary" data-go="login">লগইন</button>
+      <button class="btn" data-go="signup">সাইনআপ</button>
+    `;
+
+    alert('আপনি সফলভাবে লগআউট করেছেন।');
+    showPage('login'); // Go back to the login page
+}
+
+
+/* --- PAGE NAVIGATION FUNCTIONS --- */
+
+const pages = ['home','signup','login','character','raiter','chapter1','chapter2','chapter3','chapter4','chapter5','chapter6','chapter7','chapter8','chapter9','chapter10','chapter11','chapter12'];
+
+function showPage(id, replace=false){
+  if(!id) return;
+  
+  // Check if content is locked and trying to access a restricted page
+  const isRestricted = id !== 'login' && id !== 'signup';
+  if (isRestricted && !isLoggedIn) {
+      alert('অনুগ্রহ করে গল্প পড়ার জন্য প্রথমে লগইন বা সাইনআপ করুন।');
+      return showPage('login');
+  }
+
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById(id);
+  if(el) el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(replace) {
+    history.replaceState({page:id},'', '#'+id);
+  } else {
+    history.pushState({page:id},'', '#'+id);
+  }
+}
+
+/* --- Event Listeners --- */
+document.addEventListener('click', function(e){
+  const go = e.target.getAttribute && e.target.getAttribute('data-go');
+  const next = e.target.getAttribute && e.target.getAttribute('data-next');
+  const prev = e.target.getAttribute && e.target.getAttribute('data-prev');
+  
+  if(go){
+    e.preventDefault();
+    showPage(go);
+    return;
+  }
+  if(next){
+    e.preventDefault();
+    showPage('chapter'+next);
+    return;
+  }
+  if(prev){
+    e.preventDefault();
+    showPage('chapter'+prev);
+    return;
+  }
+});
+
+/* --- "অনুসন্ধান" বাটন for search --- */
+document.getElementById('goBtn').addEventListener('click', goToPage);
+function goToPage(){
+  if (!isLoggedIn) {
+      alert('অনুগ্রহ করে গল্প পড়ার জন্য প্রথমে লগইন বা সাইনআপ করুন।');
+      return;
+  }
+  const input = document.getElementById('searchPage');
+  const n = Number(input.value);
+  if(!n || isNaN(n)){
+    alert(`পেজ নম্বর লিখুন (1-${totalChapters})।`);
+    return;
+  }
+  if(n >= 1 && n <= totalChapters){
+    showPage('chapter'+n);
+  } else {
+    alert(`সঠিক পেজ নম্বর লিখুন (1-${totalChapters})।`);
+  }
+  input.value = ''; 
+}
+
+/* --- keyboard: Enter on input --- */
+document.getElementById('searchPage').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') goToPage();
+});
+
+/* --- on load: check hash or default login/signup --- */
+window.addEventListener('load', function(){
+  const hash = location.hash.replace('#','');
+  
+  // Initially, everything is locked, so we check if the user is trying to access login/signup
+  if(hash === 'login' || hash === 'signup') {
+    showPage(hash, true);
+  } else {
+    // Default to login page
+    showPage('login', true);
+  }
+  
+  // IMPORTANT: Keep the content locked until login is explicitly performed
+  contentWrapper.classList.add('locked-content');
+  contentControls.classList.add('locked-content');
+});
+
+/* --- popstate: handle back/forward --- */
+window.addEventListener('popstate', function(e){
+  const st = (e.state && e.state.page) ? e.state.page : (location.hash.replace('#','') || 'login');
+  
+  if(pages.includes(st)){
+      // If back button leads to a restricted page and not logged in, force login page
+      const isRestricted = st !== 'login' && st !== 'signup';
+      if (isRestricted && !isLoggedIn) {
+          return showPage('login', true);
+      }
+      
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const el = document.getElementById(st);
+      if(el) el.classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+  }
+});
+</script>
+</body>
+</html>
