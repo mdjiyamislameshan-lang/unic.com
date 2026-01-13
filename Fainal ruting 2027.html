@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSC 2027 Master OS | Ultimate Study Companion</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface: #0f172a;
+            --accent: #22d3ee;
+            --primary: #818cf8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; padding-bottom: 80px; }
+
+        /* --- Top Navigation --- */
+        .navbar {
+            padding: 15px 25px; background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--glass);
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--accent); letter-spacing: 2px; }
+        .user-profile {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            padding: 8px 18px; border-radius: 50px; color: #000;
+            font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+        }
+
+        /* --- Header Stats --- */
+        header { text-align: center; padding: 40px 20px; background: radial-gradient(circle at top, #1e293b 0%, #020617 100%); }
+        #clock { font-size: 4rem; font-weight: 800; color: var(--accent); text-shadow: 0 0 30px rgba(34, 211, 238, 0.5); }
+        .countdown-grid { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        .count-item { background: var(--surface); padding: 15px; border-radius: 15px; border: 1px solid var(--glass); min-width: 80px; }
+        .count-item span { display: block; font-size: 20px; font-weight: bold; color: var(--primary); }
+
+        /* --- Global Progress --- */
+        .container { max-width: 900px; margin: auto; padding: 0 20px; }
+        .master-progress { background: var(--surface); padding: 25px; border-radius: 25px; margin-top: -30px; border: 1px solid var(--glass); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .p-info { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px; font-size: 1.1rem; }
+        .bar-outer { background: #1e293b; height: 18px; border-radius: 10px; overflow: hidden; border: 1px solid #334155; }
+        #bar-inner { height: 100%; width: 0%; background: linear-gradient(90deg, #10b981, #34d399); transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+        /* --- Smart Navigator --- */
+        .navigator { display: flex; justify-content: space-between; align-items: center; margin: 30px 0; }
+        .nav-btn { background: var(--glass); border: 1px solid var(--primary); color: white; padding: 12px 25px; border-radius: 15px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .nav-btn:disabled { opacity: 0.3; border-color: #444; cursor: not-allowed; }
+        .nav-btn:hover:not(:disabled) { background: var(--primary); transform: translateY(-3px); }
+
+        /* --- Daily Routine Cards --- */
+        .section-title { font-size: 1.4rem; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .task-card {
+            background: var(--surface); border: 1px solid var(--glass);
+            border-radius: 25px; padding: 22px; margin-bottom: 18px;
+            display: flex; align-items: flex-start; gap: 15px;
+            transition: 0.4s; position: relative; overflow: hidden;
+        }
+        .task-card::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 5px; background: var(--primary); }
+        .task-card.done { border-color: var(--success); background: rgba(16, 185, 129, 0.05); }
+        .task-card.done::before { background: var(--success); }
+        .task-card.done .s-name { text-decoration: line-through; color: var(--success); }
+
+        .time-badge { background: rgba(34, 211, 238, 0.1); color: var(--accent); padding: 5px 12px; border-radius: 10px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 8px; }
+        .s-name { font-size: 1.3rem; font-weight: 700; display: block; margin-bottom: 5px; }
+        .sub-breakdown { font-size: 13px; color: #94a3b8; line-height: 1.6; }
+        .sub-breakdown b { color: var(--primary); }
+
+        .check-circle {
+            width: 40px; height: 40px; border: 3px solid #334155; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: 0.3s; margin-top: 10px; flex-shrink: 0;
+        }
+        .task-card.done .check-circle { background: var(--success); border-color: var(--success); color: #000; }
+
+        /* --- Analysis Section --- */
+        .analytics { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
+        .stat-card { background: var(--glass); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid var(--glass); }
+        .stat-card i { font-size: 25px; color: var(--accent); margin-bottom: 10px; }
+
+        /* --- Lock Notification --- */
+        .lock-notice { background: rgba(239, 68, 68, 0.1); color: var(--danger); padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 20px; display: none; font-weight: bold; border: 1px solid var(--danger); animation: shake 0.5s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+        /* --- Account Modal --- */
+        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 9999; }
+        .modal-box { background: #1e293b; padding: 40px; border-radius: 30px; width: 90%; max-width: 450px; text-align: center; border: 2px solid var(--primary); }
+        input { width: 100%; padding: 15px; border-radius: 15px; border: none; background: #020617; color: white; margin: 20px 0; font-size: 18px; outline: 2px solid var(--primary); }
+
+        /* --- Quick Motivation --- */
+        .quote-box { font-style: italic; color: #94a3b8; text-align: center; margin: 30px 0; padding: 0 20px; }
+    </style>
+</head>
+<body onload="initializeCore()">
+
+    <nav class="navbar">
+        <div class="logo">MISSION'27</div>
+        <div class="user-profile" onclick="openProfile()">
+            <i class="fas fa-crown"></i> <span id="display-name">প্রোফাইল</span>
+        </div>
+    </nav>
+
+    <header>
+        <div id="clock">00:00:00</div>
+        <div id="date-label" style="font-weight: bold; color: var(--accent);">তারিখ লোড হচ্ছে...</div>
+        
+        <div class="countdown-grid">
+            <div class="count-item"><span id="days-to-27">00</span>দিন বাকি</div>
+            <div class="count-item"><span id="months-to-27">00</span>মাস বাকি</div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="master-progress">
+            <div class="p-info">
+                <span>আজকের মিশন প্রগ্রেস</span>
+                <span id="p-text">০%</span>
+            </div>
+            <div class="bar-outer"><div id="bar-inner"></div></div>
+        </div>
+
+        <div class="navigator">
+            <button class="nav-btn" onclick="navigateDay(-1)"><i class="fas fa-arrow-left"></i> আগের দিন</button>
+            <h3 id="current-view-title" style="font-size: 14px; text-align: center;">Today</h3>
+            <button class="nav-btn" id="next-day-btn" onclick="navigateDay(1)">পরের দিন <i class="fas fa-arrow-right"></i></button>
+        </div>
+
+        <div id="lock-msg" class="lock-notice">⚠️ আজকের সবগুলো মিশন শেষ না করা পর্যন্ত পরের দিনের রুটিন লক থাকবে!</div>
+
+        <div class="section-title">
+            <i class="fas fa-fire"></i> আজকের পাওয়ার রুটিন
+        </div>
+
+        <div id="task-list">
+            </div>
+
+        <div class="analytics">
+            <div class="stat-card">
+                <i class="fas fa-bolt"></i>
+                <h4 id="streak-count">0</h4>
+                <p style="font-size: 12px; opacity: 0.7;">টানা পড়ার দিন</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-double"></i>
+                <h4 id="total-done">0</h4>
+                <p style="font-size: 12px; opacity: 0.7;">মোট শেষ টাস্ক</p>
+            </div>
+        </div>
+
+        <div class="quote-box" id="motivation-text">
+            "সাফল্য প্রতিদিনের ছোট ছোট প্রচেষ্টার সমষ্টি।"
+        </div>
+
+    </div>
+
+    <div id="profile-modal" class="modal">
+        <div class="modal-box">
+            <i class="fas fa-user-shield" style="font-size: 50px; color: var(--accent);"></i>
+            <h2 style="margin-top: 15px;">যোদ্ধার নাম</h2>
+            <p style="opacity: 0.6; font-size: 14px;">আপনার নাম দিয়ে মিশন শুরু করুন</p>
+            <input type="text" id="user-input" placeholder="আপনার নাম এখানে...">
+            <button class="nav-btn" style="width: 100%;" onclick="saveUserProfile()">মিশন শুরু করুন</button>
+        </div>
+    </div>
+
+    <script>
+        let currentDay = new Date();
+        const subjectsHard = ["গণিত", "পদার্থবিজ্ঞান", "রসায়ন", "উচ্চতর গণিত", "জীববিজ্ঞান"];
+        const subjectsEasy = ["ইংরেজি ১ম", "ইংরেজি ২য়", "বাংলা ১ম", "বাংলা ২য়", "আইসিটি", "পৌরনীতি", "কৃষি", "ইতিহাস", "ভূগোল"];
+        const motivationQuotes = [
+            "পড়াশোনা আজকের কষ্ট, কিন্তু ভবিষ্যতের শক্তি।",
+            "প্রতিটি টিক মার্ক তোমাকে তোমার স্বপ্নের কাছাকাছি নিয়ে যাচ্ছে।",
+            "হাল ছেড়ো না, ২০২৭ সালে জিপিএ ৫ তোমার চাই-ই চাই!",
+            "কঠিন পরিশ্রমের কোনো বিকল্প নেই ভাই।"
+        ];
+
+        // --- Smart Algorithm: Generates unique routine for each day of the year ---
+        function generateSmartRoutine(date) {
+            const seed = date.getDate() + (date.getMonth() * 31) + date.getFullYear();
+            
+            // Logic to pick different subjects for 7 days
+            const h1 = subjectsHard[seed % subjectsHard.length];
+            const h2 = subjectsHard[(seed + 2) % subjectsHard.length];
+            const e1 = subjectsEasy[seed % subjectsEasy.length];
+            const e2 = subjectsEasy[(seed + 4) % subjectsEasy.length];
+
+            return [
+                { time: "০৬:৩০ AM - ০৮:৩০ AM", sub: h1, dur: "২ ঘণ্টা", detail: "<b>CQ:</b> ৫টি সৃজনশীল সমাধান করুন।<br><b>SQ:</b> ক ও খ মূল বই থেকে মুখস্থ করুন।" },
+                { time: "০৯:৩০ AM - ১১:০০ AM", sub: e1, dur: "১ ঘণ্টা ৩০ মিনিট", detail: "<b>Reading:</b> মূল বইয়ের ৩টি পৃষ্ঠা গভীর মনোযোগে পড়ুন।<br><b>MCQ:</b> ২৫টি প্রশ্ন প্র্যাকটিস করুন।" },
+                { time: "১১:৩০ AM - ০১:০০ PM", sub: "গণিত প্র্যাকটিস", dur: "১ ঘণ্টা ৩০ মিনিট", detail: "<b>Exercise:</b> অধ্যায়ের ৩টি গুরুত্বপূর্ণ টাইপ সলভ করুন।" },
+                { time: "০৩:৩০ PM - ০৫:০০ PM", sub: e2, dur: "১ ঘণ্টা ৩০ মিনিট", detail: "<b>Note:</b> গুরুত্বপূর্ণ পয়েন্টগুলো খাতায় নোট করুন।" },
+                { time: "০৭:০০ PM - ০৯:০০ PM", sub: h2, dur: "২ ঘণ্টা", detail: "<b>Analysis:</b> টেস্ট পেপার থেকে গত ৩ বছরের প্রশ্ন সমাধান করুন।" },
+                { time: "০৯:৩০ PM - ১০:৩০ PM", sub: "ইংরেজি গ্রামার", dur: "১ ঘণ্টা", detail: "<b>Practice:</b> ৩টি ভিন্ন গ্রামার রুলস দিয়ে ৩০টি বাক্য তৈরি করুন।" },
+                { time: "১০:৪৫ PM - ১১:৩০ PM", sub: "মাস্টার রিভিশন", dur: "৪৫ মিনিট", detail: "সারাদিনের সব পড়া একবার চোখ বুলিয়ে নিন।" }
+            ];
+        }
+
+        function renderDay() {
+            const routine = generateSmartRoutine(currentDay);
+            const key = currentDay.toDateString();
+            const savedProgress = JSON.parse(localStorage.getItem(key)) || [];
+            
+            document.getElementById('current-view-title').innerText = currentDay.toLocaleDateString('bn-BD', {day:'numeric', month:'long', weekday:'long'});
+            
+            let html = "";
+            routine.forEach((item, index) => {
+                const isDone = savedProgress.includes(index);
+                html += `
+                    <div class="task-card ${isDone ? 'done' : ''}" onclick="toggleTask(${index})">
+                        <div class="info-side">
+                            <span class="time-badge">${item.time}</span>
+                            <span class="s-name">${item.sub}</span>
+                            <p class="sub-breakdown">${item.detail}<br><b>সময়কাল:</b> ${item.dur}</p>
+                        </div>
+                        <div class="check-circle">${isDone ? '<i class="fas fa-check"></i>' : ''}</div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('task-list').innerHTML = html;
+            
+            // Progress Calculation
+            const progress = Math.round((savedProgress.length / routine.length) * 100);
+            document.getElementById('bar-inner').style.width = progress + "%";
+            document.getElementById('p-text').innerText = progress + "%";
+
+            // Next Day Locking
+            const nextBtn = document.getElementById('next-day-btn');
+            const lockMsg = document.getElementById('lock-msg');
+            if(progress < 100) {
+                nextBtn.disabled = true;
+                lockMsg.style.display = 'block';
+            } else {
+                nextBtn.disabled = false;
+                lockMsg.style.display = 'none';
+            }
+            
+            updateAnalytics();
+        }
+
+        function toggleTask(idx) {
+            const key = currentDay.toDateString();
+            let saved = JSON.parse(localStorage.getItem(key)) || [];
+            if(saved.includes(idx)) saved = saved.filter(i => i !== idx);
+            else saved.push(idx);
+            localStorage.setItem(key, JSON.stringify(saved));
+            renderDay();
+        }
+
+        function navigateDay(val) {
+            currentDay.setDate(currentDay.getDate() + val);
+            renderDay();
+            document.getElementById('motivation-text').innerText = '"' + motivationQuotes[Math.floor(Math.random() * motivationQuotes.length)] + '"';
+        }
+
+        function updateAnalytics() {
+            let total = 0;
+            for (let i = 0; i < localStorage.length; i++){
+                let k = localStorage.key(i);
+                if(k.includes("202")) {
+                    total += JSON.parse(localStorage.getItem(k)).length;
+                }
+            }
+            document.getElementById('total-done').innerText = total;
+            // Streak logic (Simple version)
+            document.getElementById('streak-count').innerText = "৭"; // Placeholder
+        }
+
+        function updateTimeAndCountdown() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('bn-BD');
+            document.getElementById('date-label').innerText = now.toLocaleDateString('bn-BD', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+            
+            const target = new Date("February 01, 2027");
+            const diff = target - now;
+            document.getElementById('days-to-27').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('months-to-27').innerText = Math.floor(diff / (1000 * 60 * 60 * 24 * 30.41));
+        }
+
+        // Account Logic
+        function openProfile() { document.getElementById('profile-modal').style.display = 'flex'; }
+        function saveUserProfile() {
+            const n = document.getElementById('user-input').value;
+            if(n) {
+                localStorage.setItem('sscWarriorName', n);
+                document.getElementById('display-name').innerText = n;
+                document.getElementById('profile-modal').style.display = 'none';
+            }
+        }
+
+        function initializeCore() {
+            const user = localStorage.getItem('sscWarriorName');
+            if(user) document.getElementById('display-name').innerText = user;
+            else openProfile();
+
+            setInterval(updateTimeAndCountdown, 1000);
+            updateTimeAndCountdown();
+            renderDay();
+        }
+    </script>
+</body>
+</html>
